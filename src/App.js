@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import firebase from 'services/firebase';
 import { useAuth } from 'hooks';
@@ -9,26 +9,26 @@ const Login = lazy(() => import('pages/login'));
 
 function App ({ location }) {
   const { userInfo, setUserInfo } = useAuth();
-  const [didCheckUserIn, setDidCheckUserIn] = useState(false);
-
+  
   const { isUserLoggedIn } = userInfo;
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
+      if (user === null) {
+        return setUserInfo({
+          isUserLoggedIn: false,
+        });
+      }
       setUserInfo({
-        isUserLoggedIn: true,
+        isUserLoggedIn: !!user,
         name: user.displayName,
         email: user.email,
         photo: user.photoURL,
       });
-      setDidCheckUserIn(true)
     });
   }, [setUserInfo]);
 
-  if (!didCheckUserIn) {
-    return <h1>Carregando</h1>
-  }
-
+  
   if (isUserLoggedIn && location.pathname === LOGIN) {
     return <Redirect to={HOME} />
   }
