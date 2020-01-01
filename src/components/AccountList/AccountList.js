@@ -2,33 +2,28 @@ import React, { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import 'boxicons';
 import firebase from 'services/firebase';
-import { useAuth } from 'hooks';
+import { useAuth, useAccountList } from 'hooks';
 
 const AccountList = () => {
   const { userInfo } = useAuth();
-  const [list, setList] = useState([]);
-  const [loader, setLoader] = useState(true);
-
+  const {
+    list,
+    loaderAccountList,
+    getAccoubtList,
+  } = useAccountList();
+  
   useEffect(() => {
-    firebase.database().ref('/account-list/')
-      .orderByChild('email')
-      .equalTo(userInfo.email)
-      .once('value').then((snapshot) => {
-        if (snapshot.val()) {
-          setList(snapshot.val());
-        }
-        setLoader(false);
-      });
+    getAccoubtList(userInfo.email);
   }, [userInfo]);
 
   return (
     <Element>
       <Tittle>Account List</Tittle>
-      {loader && (<Loader>
+      {loaderAccountList && (<Loader>
           <box-icon name='loader-circle' ></box-icon>
         </Loader>
       )}
-      {list.length === 0 && !loader && <Empty>Account list empty</Empty>}
+      {list.length === 0 && !loaderAccountList && <Empty>Account list empty</Empty>}
       <List>
         {list.map((item) => (
           <ListItem key={item.id}>{item.name}</ListItem>

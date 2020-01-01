@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components'
-import { AuthProvider } from 'contexts'
+import { AuthProvider, AccountListProvider } from 'contexts'
 import App from './App';
 
 
@@ -9,8 +9,10 @@ function Root () {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <GlobalStyle />
-        <Route component={App} />
+        <AccountListProvider>
+          <GlobalStyle />
+          <Route component={App} />
+        </AccountListProvider>
       </AuthProvider>
     </BrowserRouter>
   )
