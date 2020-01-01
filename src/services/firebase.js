@@ -2,15 +2,17 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 
+console.log(process.env);
+
 const config = {
-  apiKey: "AIzaSyAFW_FnpNnHZr8Cl9rVJqGFuqnU8tf1dvA",
-  authDomain: "my-pocket-79ccf.firebaseapp.com",
-  databaseURL: "https://my-pocket-79ccf.firebaseio.com",
-  projectId: "my-pocket-79ccf",
-  storageBucket: "my-pocket-79ccf.appspot.com",
-  messagingSenderId: "1076895554182",
-  appId: "1:1076895554182:web:29e67faf484fc620f98f07",
-  measurementId: "G-PH4JGRM54L",
+  apiKey: process.env.REACT_APP_APIKEY,
+  authDomain: process.env.REACT_APP_AUTHDOMAIN,
+  databaseURL: process.env.REACT_APP_DATABASEURL,
+  projectId: process.env.REACT_APP_PROJECTID,
+  storageBucket: process.env.REACT_APP_STORAGEBUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
+  appId: process.env.REACT_APP_APPID,
+  measurementId: process.env.REACT_APP_MEASUREMENID,
 }
 
 firebase.initializeApp(config);
